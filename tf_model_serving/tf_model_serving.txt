@@ -1,0 +1,46 @@
+sudo apt-get update
+
+sudo apt-get install docker -y
+
+
+sudo curl -sSL https://get.docker.com/ | sh
+
+sudo apt-get update && sudo apt-get upgrade -y
+
+sudo su
+
+
+docker --version
+
+docker run hello-world
+
+
+
+docker pull tensorflow/serving
+
+
+
+wget https://github.com/futurexskill/ml-model-deployment/raw/main/customermodel.zip
+
+sudo apt-get install unzip
+
+unzip customermodel.zip
+
+
+docker run -t --rm -p 8501:8501 \
+    -v "$(pwd)/customer_behavior_model:/models/customer_behavior_model" \
+    -e MODEL_NAME=customer_behavior_model \
+    tensorflow/serving &
+	
+Age 20 : Salary 40000
+
+curl -d '{"instances": [[-1.43318661, -0.47466685]]}' \
+    -X POST http://localhost:8501/v1/models/customer_behavior_model:predict
+
+Age 42 : Salary 50000
+
+curl -d '{"instances": [[0.2345214460208433, 0.03675871227617118]]}' \
+    -X POST http://localhost:8501/v1/models/customer_behavior_model:predict
+	
+	
+	
